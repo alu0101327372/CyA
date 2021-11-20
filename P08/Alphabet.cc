@@ -10,13 +10,13 @@ Alphabet::Alphabet(const Alphabet& alphabet)
     : name_(alphabet.name_), alphabet_(alphabet.alphabet_) {}
 
 /// Setter. Para cambiar el valor de un objeto con un caracter. 
-void Alphabet::Insert(const char& symbol) {
+void Alphabet::add_symbol(const char& symbol) {
   char aux(symbol);
   alphabet_.insert(aux);
 }
 
 /// Setter. Para cambiar el valor de un objeto con una std::string.
-void Alphabet::Insert(const std::string& symbol) {
+void Alphabet::add_symbol(const std::string& symbol) {
   if (symbol.size() == 1) {
     char aux(symbol.front());
     alphabet_.insert(aux);
@@ -24,26 +24,26 @@ void Alphabet::Insert(const std::string& symbol) {
 }
 
 /// Setter. Para cambiar el valor del objeto partiendo de sus atributos.
-void Alphabet::SetAlphabet(const std::string& name, 
+void Alphabet::set_alphabet(const std::string& name, 
                                const std::set<char>& alphabet) {
   name_ = name;
   alphabet_ = alphabet;
 }
 
 /// Setter. Para cambiar el valor del objeto partiendo de otro.
-void Alphabet::SetAlphabet(const Alphabet& alphabet) {
+void Alphabet::set_alphabet(const Alphabet& alphabet) {
   name_ = alphabet.name_;
   alphabet_ = alphabet.alphabet_;
 }
 
 /// Setter. Para cambiar el valor del nombre solo.
-void Alphabet::SetName(const std::string& name) {
+void Alphabet::set_name(const std::string& name) {
   name_ = name;
 }
 
 /// Getter. Para conseguir el valor del alfabeto en una posición concreta,
 /// aunque es un std::set<Symbol>, actua como un std::vector<Symbol>.
-char Alphabet::At(const size_t& position) const {
+char Alphabet::get_symbol(const size_t& position) const {
   char result;
   if (position < alphabet_.size()) {
     size_t count{0};
@@ -61,17 +61,17 @@ char Alphabet::At(const size_t& position) const {
 }
 
 /// Getter. Para obtener todo el alfabeto de golpe.
-std::set<char> Alphabet::GetAlphabet(void) const {
+std::set<char> Alphabet::get_alphabet(void) const {
   return alphabet_;
 }
 
 /// Getter. Para conseguir el nombre dle alfabeto.
-std::string Alphabet::GetName(void) const {
+std::string Alphabet::get_name(void) const {
   return name_;
 }
 
 /// Función de la clase. Comprueba si el símbolo(caracter) está en el alfabeto.
-bool Alphabet::IsItInAlphabet(const char& symbol) const {
+bool Alphabet::is_alphabet(const char& symbol) const {
   bool result{false};
   for (std::set<char>::iterator i{alphabet_.begin()}; 
        i != alphabet_.end(); ++i) {
@@ -84,7 +84,7 @@ bool Alphabet::IsItInAlphabet(const char& symbol) const {
 }
 
 /// Función de la clase. Igual que la anterior, pero le pasas una std::string.
-bool Alphabet::IsItInAlphabet(const std::string& symbol) const {
+bool Alphabet::is_alphabet(const std::string& symbol) const {
   bool result{false};
   if (symbol.size() == 1) {
     char aux(symbol.front());
@@ -100,7 +100,7 @@ bool Alphabet::IsItInAlphabet(const std::string& symbol) const {
 }
 
 /// Función de la clase. Limpia el alfabeto.
-void Alphabet::Clear(void) {
+void Alphabet::clear_alphabet(void) {
   alphabet_.clear();
 }
 
@@ -117,7 +117,7 @@ bool Alphabet::operator==(const Alphabet& alphabet) const {
     size_t count{0};
     for (std::set<char>::iterator i{alphabet_.begin()}; 
          i != alphabet_.end(); ++i) {
-      if (!(alphabet.At(count) == *i)) {
+      if (!(alphabet.get_symbol(count) == *i)) {
         result = false;
         break;
       }
@@ -133,7 +133,7 @@ bool Alphabet::operator==(const Alphabet& alphabet) const {
 /// Operador sobrecargado '[]'. Devuelve el contenido del alfabeto en la
 /// posición indicada.
 char Alphabet::operator[](const size_t position) const {
-  return this->At(position);
+  return this->get_symbol(position);
 }
 
 /// Operador sobrecargado '<<'. Muestra el contenido del alfabeto de forma
@@ -162,19 +162,19 @@ std::istream& operator>>(std::istream& input, Alphabet& alphabet) {
   std::cout << "¿Cuál quiere que sea el nombre del alfabeto? ";
   std::string aux_str{""};
   input >> aux_str;
-  alphabet.SetName(aux_str);
+  alphabet.set_name(aux_str);
   std::cout << "¿Cuántos Símbolos quiere que tenga el alfabeto? ";
   int aux{0};
   input >> aux;
-  alphabet.Clear();
+  alphabet.clear_alphabet();
   for (size_t i{0}; int(i) < aux; ++i) {
     std::cout << "Introduzca el Símbolo " << i + 1 << ": ";
     input >> aux_str;
-    while (alphabet.IsItInAlphabet(aux_str)) {
+    while (alphabet.is_alphabet(aux_str)) {
       std::cout << "Introduzca un símbolo no repetido por favor: ";
       input >> aux_str; 
     }
-    alphabet.Insert(aux_str);
+    alphabet.add_symbol(aux_str);
   }
 
   return input;

@@ -33,10 +33,10 @@ Grammar::Grammar(const std::set<char>& alphabet,
       creation_failed_(false) {
   const std::string alphabet_name{"Alfabeto"};
   const std::string non_terminals_name{"No terminales"};
-  alphabet_.SetAlphabet(alphabet_name, alphabet);
-  non_terminals_.SetAlphabet(non_terminals_name, non_terminals);
+  alphabet_.set_alphabet(alphabet_name, alphabet);
+  non_terminals_.set_alphabet(non_terminals_name, non_terminals);
   start_ = start;
-  prod_.set_produdction(prod);
+  prod_.set_production(prod);
 }
 
 /**
@@ -55,10 +55,8 @@ Grammar::Grammar(const std::set<char>& alphabet,
  * @param prod conjunto de reglas para que la gramática genera cadenas, estas
  * reglas están dentro del objeto Productions en un std::multimap.
  */
-Grammar::Grammar(const Alphabet& alphabet, const Alphabet& non_terminals,
-                 const char& start, const Production& prod) 
-    : alphabet_(), non_terminals_(), start_(), prod_(), 
-      creation_failed_(false) {
+Grammar::Grammar(const Alphabet& alphabet, const Alphabet& non_terminals, const char& start, const Production& prod) 
+    : alphabet_(), non_terminals_(), start_(), prod_(), creation_failed_(false) {
   alphabet_ = alphabet;
   non_terminals_ = non_terminals;
   start_ = start;
@@ -72,8 +70,7 @@ Grammar::Grammar(const Alphabet& alphabet, const Alphabet& non_terminals,
  * @param grammar objeto de la clase Grammar que se le pasa a la función para
  * que con sus atributos internos inicializen al objeto nuevo.
  */
-Grammar::Grammar(const Grammar& grammar) 
-    : alphabet_(grammar.alphabet_), non_terminals_(grammar.non_terminals_), 
+Grammar::Grammar(const Grammar& grammar) : alphabet_(grammar.alphabet_), non_terminals_(grammar.non_terminals_), 
       start_(grammar.start_), prod_(grammar.prod_), 
       creation_failed_(grammar.creation_failed_) {}
 
@@ -85,8 +82,7 @@ Grammar::Grammar(const Grammar& grammar)
  * @param CFGFile Archivo (de texto) donde se describen los elementos de cada
  * objeto interno de la gramática.
  */
-Grammar::Grammar(std::ifstream& CFGFile) 
-    : alphabet_(), non_terminals_(), start_(), prod_(), 
+Grammar::Grammar(std::ifstream& CFGFile) : alphabet_(), non_terminals_(), start_(), prod_(), 
       creation_failed_(false) {
   std::string aux_str{""};
   size_t count{1}; ///< cuenta las líneas que se leen.
@@ -110,20 +106,20 @@ Grammar::Grammar(std::ifstream& CFGFile)
       if (regex_match(aux_str, prods_match, prods_pattern)) {
         /// si el símbolo no terminal de la línea es incorrecto, se termina el
         /// programa.
-        if (non_terminals_.IsItInAlphabet(prods_match[2].str())) {
+        if (non_terminals_.is_alphabet(prods_match[2].str())) {
           /// si la produccion contiene un solo símbolo que no sea del alfabeto
           /// o del conjunto de símbolos no terminales, se termina el programa
-          if (this->IsItAAceptableProduction(prods_match[3].str())) {
+          if (this->is_accepted(prods_match[3].str())) {
             /// si es la primera vez que se añade una producción asociada al
             /// símbolo no terminal de la línea, esta se añade con un número
             /// 1 como referencia, sino, se añade con el valor del número más
             /// grande que tenga asociado el símbolo más 1.
-            if (!prod_.IsItAProduction(prods_match[2].str().front(), 1)) {
-              prod_.set_produdction(prods_match[2].str().front(), 1, 
+            if (!prod_.is_production(prods_match[2].str().front(), 1)) {
+              prod_.set_production(prods_match[2].str().front(), 1, 
                             prods_match[3].str());
             } else {
-              prod_.set_produdction(prods_match[2].str().front(), 
-                            prod_.GetUpperNumP1(prods_match[2].str().front()),
+              prod_.set_production(prods_match[2].str().front(), 
+                            prod_.get_greatest_non_terminal(prods_match[2].str().front()),
                             prods_match[3].str());
             }
           } else {
@@ -145,7 +141,7 @@ Grammar::Grammar(std::ifstream& CFGFile)
       if (regex_match(aux_str, alphabet_match, set_symbols_pattern)) {
         size_t aux{1};
         for (auto i : alphabet_match) {
-          if (aux % 2 == 0) alphabet_.Insert(i.str().front());
+          if (aux % 2 == 0) alphabet_.add_symbol(i.str().front());
           ++aux;
         }
         ;
@@ -161,8 +157,8 @@ Grammar::Grammar(std::ifstream& CFGFile)
         size_t aux{1};
         for (auto i : non_terminals_match) {
           if (aux % 2 == 0) {
-            if (!alphabet_.IsItInAlphabet(i.str())) {
-              non_terminals_.Insert(i.str().front());
+            if (!alphabet_.is_alphabet(i.str())) {
+              non_terminals_.add_symbol(i.str().front());
             } else {
               creation_failed_ = true;
               break;
@@ -184,7 +180,7 @@ Grammar::Grammar(std::ifstream& CFGFile)
  * 
  * @return SetSymbols 
  */
-Alphabet Grammar::GetAlphabet(void) const {
+Alphabet Grammar::get_alphabet(void) const {
   return alphabet_;
 }
 
@@ -194,32 +190,32 @@ Alphabet Grammar::GetAlphabet(void) const {
  * 
  * @return SetSymbols 
  */
-Alphabet Grammar::GetNonTerminals(void) const {
+Alphabet Grammar::get_non_terminal(void) const {
   return non_terminals_;
 }
 
 /**
- * @fn char Grammar::GetStart(void) const
+ * @fn char Grammar::get_start(void) const
  * @brief Getter, retorna el símbolo de arranque de la gramática (start_).
  * 
  * @return char 
  */
-char Grammar::GetStart(void) const {
+char Grammar::get_start(void) const {
   return start_;
 }
 
 /**
- * @fn Productions Grammar::GetProductions(void) const
+ * @fn Productions Grammar::get_production(void) const
  * @brief Getter, retorna las producciones de nuestra gramática (prod_).
  * 
  * @return Productions 
  */
-Production Grammar::GetProductions(void) const {
+Production Grammar::get_production(void) const {
   return prod_;
 }
 
 /**
- * @fn std::string Grammar::GetProduction(const char& non_terminal, 
+ * @fn std::string Grammar::get_production(const char& non_terminal, 
  *                                        const size_t& num) const
  * @brief Getter, usando el símbolo non_terminal y el número de producción num
  * se retorna la cadena que esa produccion genera.
@@ -230,9 +226,9 @@ Production Grammar::GetProductions(void) const {
  * posee el símbolo no terminal para sustituir, cual de ellas elegimos.
  * @return std::string 
  */
-std::string Grammar::GetProduction(const char& non_terminal, 
+std::string Grammar::get_production(const char& non_terminal, 
                                    const size_t& num) const {
-  return prod_.GetProd(non_terminal, num);
+  return prod_.get_production(non_terminal, num);
 }
 
 /**
@@ -247,7 +243,7 @@ bool Grammar::Fail(void) const {
 }
 
 /**
- * @fn bool Grammar::IsItInAlphabet(const char& symbol) const
+ * @fn bool Grammar::is_alphabet(const char& symbol) const
  * @brief Devuelve true, si el símbolo (caracter dado a la
  * función) está en el alfabeto.
  * 
@@ -256,8 +252,8 @@ bool Grammar::Fail(void) const {
  * @return true el símbolo llamado 'symbol' sí está contenido en el alfabeto.
  * @return false el símbolo llamado 'symbol' no está contenido en el alfabeto.
  */
-bool Grammar::IsItInAlphabet(const char& symbol) const {
-  return alphabet_.IsItInAlphabet(symbol);
+bool Grammar::is_alphabet(const char& symbol) const {
+  return alphabet_.is_alphabet(symbol);
 }
 
 /**
@@ -272,12 +268,12 @@ bool Grammar::IsItInAlphabet(const char& symbol) const {
  * @return false el símbolo llamado 'symbol' no está contenido en el objeto 
  * non_terminals_.
  */
-bool Grammar::IsItInNonTerminals(const char& symbol) const {
-  return non_terminals_.IsItInAlphabet(symbol);
+bool Grammar::is_nonterminal(const char& symbol) const {
+  return non_terminals_.is_alphabet(symbol);
 }
 
 /**
- * @fn bool Grammar::IsItAProduction(const char& symbol, const size_t& num) const
+ * @fn bool Grammar::is_production(const char& symbol, const size_t& num) const
  * @brief Devuelve true, si el símbolo coincide con un símbolo contenido en el
  * objeto prod_, y el número pasado a la función coincide con la etiqueta de 
  * una producción en concreto.
@@ -290,12 +286,12 @@ bool Grammar::IsItInNonTerminals(const char& symbol) const {
  * @return false, no existe una producción asociada para el símbolo y el número
  * pasados a la función.
  */
-bool Grammar::IsItAProduction(const char& symbol, const size_t& num) const {
-  return prod_.IsItAProduction(symbol, num);
+bool Grammar::is_production(const char& symbol, const size_t& num) const {
+  return prod_.is_production(symbol, num);
 }
 
 /**
- * @fn bool Grammar::IsItAAceptableProduction(const std::string& prod) const
+ * @fn bool Grammar::is_accepted(const std::string& prod) const
  * @brief analiza el una std::string que le pasan a la función y comprueba, 
  * revisando los objetos alphabet_ y non_terminals_, si la cadena es válida.
  * 
@@ -303,11 +299,11 @@ bool Grammar::IsItAProduction(const char& symbol, const size_t& num) const {
  * @return true, la producción es válida.
  * @return false, la producción no es válida.
  */
-bool Grammar::IsItAAceptableProduction(const std::string& prod) const {
+bool Grammar::is_accepted(const std::string& prod) const {
   bool result{true};
   for (auto i : prod) {
-    if (!(alphabet_.IsItInAlphabet(i) || 
-        non_terminals_.IsItInAlphabet(i))) {
+    if (!(alphabet_.is_alphabet(i) || 
+        non_terminals_.is_alphabet(i))) {
       result = false;
       break;
     }      

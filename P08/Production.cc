@@ -39,12 +39,12 @@ Production::Production(const Production& prod) : prod_(prod.prod_) {}
 
 
 
-void Production::set_produdction(const std::multimap<char, std::pair<size_t, std::string> >& prod) {
+void Production::set_production(const std::multimap<char, std::pair<size_t, std::string> >& prod) {
   prod_ = prod;
 }
 
 /**
- * @fn void Production::set_produdction(const char& non_terminal, const size_t& num, 
+ * @fn void Production::set_production(const char& non_terminal, const size_t& num, 
  *                               const std::string& prod)
  * @brief Setter, introduce un nuevo elemento en el multimap
  * 
@@ -52,13 +52,13 @@ void Production::set_produdction(const std::multimap<char, std::pair<size_t, std
  * @param num etiqueta para hallar la producción concreta
  * @param prod cadena por la que se sustituye a "non_terminal"
  */
-void Production::set_produdction(const char& non_terminal, const size_t& num,
+void Production::set_production(const char& non_terminal, const size_t& num,
                           const std::string& prod) {
   prod_.insert(std::make_pair(non_terminal, std::make_pair(num, prod)));
 }
 
 /**
- * @fn void Production::set_produdction(const char& non_terminal, 
+ * @fn void Production::set_production(const char& non_terminal, 
  *                               std::pair<size_t, std::string>& prod)
  * @brief Setter, introduce un nuevo elemento en el multimap.
  * 
@@ -66,7 +66,7 @@ void Production::set_produdction(const char& non_terminal, const size_t& num,
  * @param prod objeto que contiene, una etiqueta para identificar la producción
  * y la producción en sí.
  */
-void Production::set_produdction(const char& non_terminal, 
+void Production::set_production(const char& non_terminal, 
                           std::pair<size_t, std::string>& prod) {
   prod_.insert(std::make_pair(non_terminal, prod));
 }

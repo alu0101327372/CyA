@@ -19,22 +19,21 @@ class Grammar {
   Grammar(const Grammar& grammar);
   Grammar(std::ifstream& CFGFile);
 
-  Alphabet GetAlphabet(void) const;
-  Alphabet GetNonTerminals(void) const;
-  char GetStart(void) const;
-  Production GetProductions(void) const;
-  std::string GetProduction(const char& non_terminal, const size_t& num) const;
+  Alphabet get_alphabet(void) const;
+  Alphabet get_non_terminal(void) const;
+  char get_start(void) const;
+  Production get_production(void) const;
+  std::string get_production(const char& non_terminal, const size_t& num) const;
   bool Fail(void) const;
 
-  bool IsItInAlphabet(const char& symbol) const;
-  bool IsItInNonTerminals(const char& symbol) const;
-  bool IsItAProduction(const char& symbol, const size_t& num) const;
-  bool IsItAAceptableProduction(const std::string& prod) const;
+  bool is_alphabet(const char& symbol) const;
+  bool is_nonterminal(const char& symbol) const;
+  bool is_production(const char& symbol, const size_t& num) const;
+  bool is_accepted(const std::string& prod) const;
   bool EvalProdsInFile(std::ifstream& cfg_prods_file, 
                        std::ofstream& cfg_out_file);
   
   friend std::ostream& operator<<(std::ostream& out, const Grammar& grammar);
-
  private:
   Alphabet alphabet_; ///< Alfabeto de la gramatica.
   Alphabet non_terminals_; ///< Conjunto de simbolos no terminales.
