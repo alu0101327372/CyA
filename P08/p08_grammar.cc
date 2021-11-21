@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
   Grammar grammar(cfg_file);
   cfg_file.close();
 
-  std::cout << grammar << '\n';
-  // grammar.EvalProdsInFile(cfg_productions, cfg_out_file);
+  if (grammar.EvalProdsInFile(cfg_productions, cfg_out_file))
+    return 0;
   cfg_productions.close();
   cfg_out_file.close();
 
