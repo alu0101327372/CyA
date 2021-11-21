@@ -1,101 +1,71 @@
 #include "Productions.h"
 
 /**
- * @fn Productions::Productions(void)
- * @brief Constructor por defecto, inicializa el multimap vacio. 
- */
-Productions::Productions(void) : prod_() {}
-
-/**
- * @fn Productions::Productions(const char& non_terminal, 
- *                       std::pair<size_t, std::string> prod)
- * @brief Constructor predeterminado, coge los valores que se le pasan a la
- * función y inicializa el primer elemento del multimap con ellos.
+ * @brief Initialize the production object
  * 
- * @param non_terminal clave del multimap.
- * @param prod valor del multimap.
+ * @param non_terminal symbol 
+ * @param prod production
  */
-Productions::Productions(const char& non_terminal, 
-                         std::pair<size_t, std::string> prod) 
-    : prod_() {
-  prod_.insert(std::make_pair(non_terminal, prod));
+Productions::Productions(const char& non_terminal, std::pair<size_t, std::string> prod) 
+  : production_() {
+  production_.insert(std::make_pair(non_terminal, prod));
 }
 
+
+
 /**
- * @fn Productions::Productions(const char& non_terminal, const size_t& num, 
- *                        const std::string& prod)
- * @brief Segundo constructor predeterminado, hace lo mismo que el anterior
- * pero de otra forma
+ * @brief Initialize the production object
  * 
- * @param non_terminal clave del elemento del multimap
- * @param num etiqueta para encontrar la producción concreta
- * @param prod cadena por la que se sustituye a "non_terminal"
+ * @param non_terminal symbol
+ * @param num specific production
+ * @param prod production
  */
 Productions::Productions(const char& non_terminal, const size_t& num, 
-                         const std::string& prod) 
-    : prod_() {
-  prod_.insert(std::make_pair(non_terminal, std::make_pair(num, prod)));
+  const std::string& prod) : production_() {
+  production_.insert(std::make_pair(non_terminal, std::make_pair(num, prod)));
 }
+
+
 
 /**
- * @fn Productions::Productions(const Productions& prod)
- * @brief Constructor de copia
+ * @brief Constructor of copy
  * 
- * @param prod objeto del que copiaremos sus atributos para crear uno nuevo
+ * @param prod Production object
  */
-Productions::Productions(const Productions& prod) 
-    : prod_(prod.prod_) {}
+Productions::Productions(const Productions& prod) : production_(prod.production_) {}
 
-void Productions::SetProd(
-    const std::multimap<char, std::pair<size_t, std::string>>& prod) {
-  prod_ = prod;
+
+
+void Productions::set_production(const std::multimap<char, std::pair<size_t, std::string>>& prod) {
+  production_ = prod;
 }
 
-/**
- * @fn void Productions::SetProd(const char& non_terminal, const size_t& num, 
- *                               const std::string& prod)
- * @brief Setter, introduce un nuevo elemento en el multimap
- * 
- * @param non_terminal clave del elemento del multimap
- * @param num etiqueta para hallar la producción concreta
- * @param prod cadena por la que se sustituye a "non_terminal"
- */
-void Productions::SetProd(const char& non_terminal, const size_t& num,
-                          const std::string& prod) {
-  prod_.insert(std::make_pair(non_terminal, std::make_pair(num, prod)));
-}
+
 
 /**
- * @fn void Productions::SetProd(const char& non_terminal, 
- *                               std::pair<size_t, std::string>& prod)
- * @brief Setter, introduce un nuevo elemento en el multimap.
+ * @brief Introduce a new element in the multimap
  * 
- * @param non_terminal clave del elemento del multimap
- * @param prod objeto que contiene, una etiqueta para identificar la producción
- * y la producción en sí.
+ * @param non_terminal symbol
+ * @param num specific production
+ * @param prod production
  */
-void Productions::SetProd(const char& non_terminal, 
-                          std::pair<size_t, std::string>& prod) {
-  prod_.insert(std::make_pair(non_terminal, prod));
+void Productions::set_production(const char& non_terminal, const size_t& num, const std::string& prod) {
+  production_.insert(std::make_pair(non_terminal, std::make_pair(num, prod)));
 }
 
+
+
 /**
- * @fn std::pair<std::multimap<char, std::pair<size_t, std::string>>::iterator,
- * std::multimap<char, std::pair<size_t, std::string>>::iterator> 
- * Productions::GetEqRang(const char& non_terminal)
- * @brief Getter, devuelve el rango de elementos que coincidan con la clave
- * pasada a la función, en forma de iteradores.
+ * @brief Introduce a new element in the multimap
  * 
- * @param non_terminal clave que dicta la búsqueda, y le dice a la función que
- * devuelva el rango de elemento donde coinciden la clave con este parámetro
- * @return std::pair<std::multimap<char, std::pair<size_t, std::string>>::iterator,
- * std::multimap<char, std::pair<size_t, std::string>>::iterator> 
+ * @param non_terminal symbol
+ * @param prod production
  */
-std::pair<std::multimap<char, std::pair<size_t, std::string>>::iterator,
-std::multimap<char, std::pair<size_t, std::string>>::iterator> 
-Productions::GetEqRang(const char& non_terminal) {
-  return prod_.equal_range(non_terminal);
+void Productions::set_production(const char& non_terminal, std::pair<size_t, std::string>& prod) {
+  production_.insert(std::make_pair(non_terminal, prod));
 }
+
+
 
 /**
  * @fn std::string Productions::GetProd(const char& non_terminal, 
@@ -103,15 +73,13 @@ Productions::GetEqRang(const char& non_terminal) {
  * @brief Getter, devuelve una producción concreta con ayuda de los parámetros
  * que se le pasan a la función.
  * 
- * @param non_terminal clave del elemento del multimap
- * @param num etiqueta para encontrar la producción concreta
- * @return std::string, es la producción hallada, si los argumentos de la
- * función están mal, este valor será vacío.
+ * @param non_terminal symbol
+ * @param num specific production
+ * @return production
  */
-std::string Productions::GetProd(const char& non_terminal, 
-                                 const size_t& num) const {
-  std::string aux{""};
-  for (auto i: prod_) {
+std::string Productions::get_production(const char& non_terminal, const size_t& num) const {
+  std::string aux = " ";
+  for (auto i : production_) {
     if ((i.first == non_terminal) && (i.second.first == num)) {
       aux = i.second.second;
     }
@@ -119,52 +87,48 @@ std::string Productions::GetProd(const char& non_terminal,
   return aux;
 }
 
+
+
 /**
- * @fn size_t Productions::GetUpperNumP1(const char& symbol) const
- * @brief devuelve la etiqueta más grande más 1, de un símbolo no terminal
- * asociado a una o varias producciones, si el símbolo no está en el conjunto
- * de símbolos no terminales, el valor retornado es cero.
+ * @brief returns the largest label plus 1, of a non-terminal symbol
  * 
- * @param symbol simbolo a evaluar.
+ * @param symbol
  * @return size_t 
  */
-size_t Productions::GetUpperNumP1(const char& symbol) const {
-  size_t result{0};
-  for (auto i: prod_) {
+size_t Productions::get_greates_non_terminal(const char& symbol) const {
+  size_t result = 0;
+  for (auto i : production_) {
     if ((i.first == symbol) && (i.second.first >= result))
       result = ++i.second.first;
   }
   return result;
 }
 
-/**
- * @fn size_t Productions::Size(void) const
- * @brief Devuelve la cantidad de elementos que contiene el multimap
- * 
- * @return size_t, es el tamaño del multimap
- */
-size_t Productions::Size(void) const {
-  return prod_.size();
-}
+
 
 /**
- * @fn bool Productions::IsItAProduction(const char& symbol, 
- *                                       const size_t& num) const
- * @brief Función que nos dice si hay una producción asociada a un símbolo no
- * terminal y un número de referencia en el conjunto de producciones.
+ * @brief Returns the number of elements that the multimap contains
  * 
- * @param symbol símbolo no terminal.
- * @param num número que clasifica todas las producciones que tiene un símbolo
- * no terminal.
- * @return true hay una producción para el símbolo no terminal dado, y con la
- * etiqueta num.
- * @return false no hay una producción para el símbolo no terminal dado, y con 
- * la etiqueta num.
+ * @return size_t
  */
-bool Productions::IsItAProduction(const char& symbol, 
-                                  const size_t& num) const {
-  bool result{false};
-  for (auto i: prod_) {
+size_t Productions::production_size(void) const {
+  return production_.size();
+}
+
+
+
+/**
+ * @brief Function that checks if there is a production associated with a non-symbol
+ * terminal and a reference number in the set of productions.
+ * 
+ * @param symbol non terminal
+ * @param num specific production
+ * @return true if exists
+ * @return false if don't exists
+ */
+bool Productions::is_production(const char& symbol, const size_t& num) const {
+  bool result = false;
+  for (auto i : production_) {
     if ((i.first == symbol) && (i.second.first == num)) {
       result = true;
       break;
@@ -173,30 +137,28 @@ bool Productions::IsItAProduction(const char& symbol,
   return result;
 }
 
+
 /**
- * @fn void Productions::operator=(const Productions& prod)
- * @brief Sobrecarga del operator "=", iguala los objetos std::multimap de cada
- * objeto de la clase.
+ * @brief Operator of copy
  * 
- * @param prod objeto del cual se van a coger sus atribujos internos para 
- * pasarselos al objeto que está a la izquierda del operador.
+ * @param prod Production Object 
+ * @return Production& 
  */
 Productions& Productions::operator=(const Productions& prod) {
-  prod_ = prod.prod_;
+  production_ = prod.production_;
   return *this;
 }
 
 /**
- * @fn std::ostream& operator<<(std::ostream& out, const Productions& prod)
- * @brief Sobrecarga del operador de extracción.
+ * @brief Operator << overload.
  * 
- * @param out objeto de flujo de salida
- * @param prod objeto que queremos mostrar por la salida estándar
+ * @param out ofstrea object
+ * @param prod production
  * @return std::ostream& 
  */
 std::ostream& operator<<(std::ostream& out, const Productions& prod) {
   out << '\n';
-  for (auto i: prod.prod_) {
+  for (auto i : prod.production_) {
     out << i.first << '(' << i.second.first << ')' << " -> ";
     out << i.second.second << '\n';
   }

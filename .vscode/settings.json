@@ -2,6 +2,7 @@
     "files.associations": {
         "*.rmd": "markdown",
         "set": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "string": "cpp"
     }
 }
