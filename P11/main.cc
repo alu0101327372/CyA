@@ -32,12 +32,20 @@ int main(int argc, char* argv[]) {
     grep();
   }
   else if (argc == 3) {
-    std::vector<float> peso = {10.0, 20.0, 30.0, 4.0, 40.0, 50.0};
-    std::vector<float> value = {20.0, 30.0, 66.0, 40.0, 60.0};
-    float pesoM = 100.0;
-    float num = 5.0;
-    Mochila m(peso, value, pesoM, num);
-    m.print();
+    int tamaño_max = atoi(argv[1]);
+    std::string file = argv[2];
+    Mochila mochila(tamaño_max);
+    Objeto objeto(file);
+    mochila.insertar_objeto(objeto);
+    mochila.imprimir();
+  }
+  else if (argc == 4) {
+    std::string input = argv[3];
+    float tamaño = atof(argv[2]);
+    Mochila mochila(tamaño);
+    Objeto objeto(input);
+    mochila.insertar_no_acotado(objeto);
+    mochila.imprimir();
   }
   else {
     throw std::system_error(errno, std::system_category(), "Se ha introducido un numero invalido o erroneo de argumentos\n. Por favor vuelva a intentarlo o ejecute ./prueba --help para más información.");

@@ -13,24 +13,25 @@
 //      17/11/2021 - Continuación de la programación
 //      18/11/2021 - Corrección de errores
 //      19/11/2021 - Última revisión.
-#ifndef MOCHILA_H_
-#define MOCHILA_H_
+#ifndef OBJETO_H_
+#define OBJETO_H_
 
-#include "Objeto.h"
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <regex>
+#include <list>
 
-class Mochila {
- public:
-    Mochila(float peso);
-
-    void insertar_objeto(Objeto&);
-    void insertar_no_acotado(Objeto&);
-    void imprimir();
-    float espacio(void);
- private:
-    float peso_max_;
-    float peso_actual_;
-    float beneficio_;
-    std::vector<std::pair<int, float>> orden_;
+class Objeto {
+  public:
+    Objeto(const std::string& input);
+    int tamaño(void) const;
+    std::list<std::vector<float>>::iterator inicio(void);
+    std::list<std::vector<float>>::iterator fin(void);
+    void borrar(int);
+  private:
+    int cantidad_;
+    std::list<std::vector<float>> objetos_;
 };
 
-#endif // MOCHILA_H_
+#endif // OBJETO_H_
