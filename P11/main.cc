@@ -15,40 +15,93 @@
 //      19/11/2021 - Última revisión.
 #include "Mochila.h"
 
-void grep() {
-  std::cout << " Para la correcta ejecucion del programa debemos seguir los siguientes pasos:\n";
-  std::cout << " 1. Se debe pasar como parametros al ejecutar el programa, la secuencia de adn del que leer y el fichero que se va a guardar.\n";
-  std::cout << " 2. Se hara de la siguiente forma: \n\t\t./p05_dna_sequencer {PATRÓN} dna_subsequences.out\n";
-  std::cout << " 3. El programa se encargara de analizar la cadena de entrada, y mientras, escribirá la solución en el fichero de salida." << std::endl;
+#include <stdlib.h>
+
+// Funcion contiene informacion sobre el programa
+void grep(int argc, char* argv[]) {
+  std::string help = "--help";
+  int max_size;
+  const std::string kconfig_file = ".cfg";
+  std::string file;
+  if (argc == 2 && (argv[1] == help)) {
+    std::cout << "Los objetos son unicos y solo puede haber uno de cada en la "
+                 "mochila, pero se pueden fraccionar, el objetivo es maximizar "
+                 "el beneficio de los objetos que se introducen en la mochila"
+              << std::endl;
+    std::cout << "./ejecutable [-u] [peso_max] [archivo.cfg]"
+              << std::endl;
+    std::cout << "La opcion -u resuelve el problema de forma no acotada"
+              << std::endl;
+    std::cout << "Con la opcion -u los objetos no se pueden fraccionar"
+              << std::endl;
+    exit(1);
+  }
+  if (argc < 3 || argc > 4) {
+    std::cout << "No se han introducido correctamente los argumentos" << std::endl;
+    std::cout << "La estructura es la siguiente: ./ejecutable [-u] [peso_max] [archivo.cfg]" << std::endl;
+    std::cout << "Para mas informacion ejecutar con parametro --help" << std::endl;
+    exit(1);
+  }
+  if (argc == 3) {
+    max_size = atoi(argv[1]);
+    if (max_size <= 0) {
+      std::cout << max_size << std::endl;
+      std::cout << "El segundo parametro debe ser un numero que indicara el peso maximo de la mochila" << std::endl;
+      exit(1);
+    }
+    file = argv[2];
+    std::size_t found = file.find(kconfig_file);
+    if (found == std::string::npos) {
+      std::cout << "El segundo parametro debe ser un archivo .cfg que contenga "
+                   "la lista de objetos a trabajar"
+                << std::endl;
+      exit(1);
+    }
+  } else {
+    max_size = atoi(argv[2]);
+    if (max_size <= 0) {
+      std::cout << max_size << std::endl;
+      std::cout
+          << "El segundo parametro debe ser un numero que indicara el peso "
+             "maximo de la mochila"
+          << std::endl;
+      exit(1);
+    }
+    file = argv[3];
+    std::size_t found = file.find(kconfig_file);
+    if (found == std::string::npos) {
+      std::cout << "El segundo parametro debe ser un archivo .cfg que contenga "
+                   "la lista de objetos a trabajar"
+                << std::endl;
+      exit(1);
+    }
+  }
 }
 
 int main(int argc, char* argv[]) {
-  // Check the numer of arguments is correct
-  if (argc == 1) {
-    std::cout << "Modo de empleo: grep [OPCIÓN]... PATRÓN [FICHERO]...\n";
-    std::cout << "Pruebe ‘grep --help’ para más información." << std::endl;
+  grep(argc, argv);
+  std::string input;
+  float size;
+  // Asigna los valores correctamente de peso de mochila y nombre de lista de
+  // items cuando se añade opcion -u
+  if (argc == 3) {
+    input = argv[2];
+    size = atof(argv[1]);
+  } else {
+    input = argv[3];
+    size = atof(argv[2]);
   }
-  else if (argc == 2 && !strcmp(argv[1], "--help")) {
-    grep();
+
+  Mochila mochila(size);
+  Objeto objetos(input);
+  // Se meten los elementos en la mochila de la forma correspondiente que viene
+  // dictado por opcion -u
+  if (argc == 3) {
+    mochila.insertar_objeto(objetos);
+  } else {
+    mochila.insertar_no_acotado(objetos);
   }
-  else if (argc == 3) {
-    int tamaño_max = atoi(argv[1]);
-    std::string file = argv[2];
-    Mochila mochila(tamaño_max);
-    Objeto objeto(file);
-    mochila.insertar_objeto(objeto);
-    mochila.imprimir();
-  }
-  else if (argc == 4) {
-    std::string input = argv[3];
-    float tamaño = atof(argv[2]);
-    Mochila mochila(tamaño);
-    Objeto objeto(input);
-    mochila.insertar_no_acotado(objeto);
-    mochila.imprimir();
-  }
-  else {
-    throw std::system_error(errno, std::system_category(), "Se ha introducido un numero invalido o erroneo de argumentos\n. Por favor vuelva a intentarlo o ejecute ./prueba --help para más información.");
-  }
+
+  mochila.imprimir();
   return 0;
 } 

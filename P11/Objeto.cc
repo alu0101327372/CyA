@@ -1,7 +1,26 @@
+// Universidad de La Laguna
+// Escuela Superior de Ingeniería y Tecnología
+// Grado en Ingeniería Informática
+// Asignatura: Computabilidad y Algoritmia // Curso: 2º
+// Práctica 11: Algoritmos voraces
+// Autor: Marco Antonio Cabrera Hernández
+// Correo: alu0101327372@ull.es
+// Fecha: 16/12/2021
+// Archivo Mochila.h: 
+//         Contiene la implementación de la clase Objeto.
+// Revisión histórica
+//      16/12/2021 - Creación (primera versión) del código
+//      17/11/2021 - Continuación de la programación
+//      18/11/2021 - Corrección de errores
+//      19/11/2021 - Última revisión.
 #include "Objeto.h"
 
-// Constructor de clase Item, guarda en una lista varios vectores que contienen
-// distintos datos de cada objeto
+/**
+ * @brief Constructor de clase Objeto, guarda en una lista varios vectores que contienen
+ * distintos datos de cada objeto
+ * 
+ * @param input string 
+ */
 Objeto::Objeto(const std::string& input) {
   std::string linea;
   std::ifstream input_list(input);
@@ -58,21 +77,30 @@ Objeto::Objeto(const std::string& input) {
 
 
 
-// Devuelve tamaño de lista
+/**
+ * @brief Devuelve tamaño de lista
+ * @return atributo cantidad
+ */
 int Objeto::tamaño(void) const { 
   return cantidad_; 
 }
 
 
 
-// Devuelve iterador al comienzo de la lista
+/**
+ * @brief Devuelve iterador al comienzo de la lista
+ * @return lista inicio
+ */
 std::list<std::vector<float>>::iterator Objeto::inicio(void) {
   return objetos_.begin();
 }
 
 
 
-// Devuelve iterador al final de la lista
+/**
+ * @brief Devuelve iterador al final de la lista
+ * @return lista fin
+ */
 std::list<std::vector<float>>::iterator Objeto::fin(void) { 
   return objetos_.end(); 
 }

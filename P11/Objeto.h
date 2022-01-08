@@ -7,16 +7,17 @@
 // Correo: alu0101327372@ull.es
 // Fecha: 16/12/2021
 // Archivo Mochila.h: 
-//         Contiene la definición de la clase Mochila.
+//         Contiene la definición de la clase Objeto.
 // Revisión histórica
 //      16/12/2021 - Creación (primera versión) del código
-//      17/11/2021 - Continuación de la programación
-//      18/11/2021 - Corrección de errores
-//      19/11/2021 - Última revisión.
+//      17/12/2021 - Continuación de la programación
+//      18/12/2021 - Corrección de errores
+//      19/12/2021 - Última revisión.
 #ifndef OBJETO_H_
 #define OBJETO_H_
 
 #include <iostream>
+#include <string>
 #include <vector>
 #include <fstream>
 #include <regex>
@@ -25,10 +26,10 @@
 class Objeto {
   public:
     Objeto(const std::string& input);
+
     int tamaño(void) const;
     std::list<std::vector<float>>::iterator inicio(void);
     std::list<std::vector<float>>::iterator fin(void);
-    void borrar(int);
   private:
     int cantidad_;
     std::list<std::vector<float>> objetos_;

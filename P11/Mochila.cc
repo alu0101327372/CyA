@@ -1,6 +1,25 @@
+// Universidad de La Laguna
+// Escuela Superior de Ingeniería y Tecnología
+// Grado en Ingeniería Informática
+// Asignatura: Computabilidad y Algoritmia // Curso: 2º
+// Práctica 11: Algoritmos voraces
+// Autor: Marco Antonio Cabrera Hernández
+// Correo: alu0101327372@ull.es
+// Fecha: 16/12/2021
+// Archivo Mochila.h: 
+//         Contiene la implementación de la clase Mochila.
+// Revisión histórica
+//      16/12/2021 - Creación (primera versión) del código
+//      17/12/2021 - Continuación de la programación
+//      18/12/2021 - Corrección de errores
+//      19/12/2021 - Última revisión.
 #include "Mochila.h"
 
-
+/**
+ * @brief Constructor de la clase
+ * 
+ * @param peso peso de la mochila
+ */
 Mochila::Mochila(float peso) {
   peso_max_ = peso;
   peso_actual_ = 0;
@@ -9,8 +28,12 @@ Mochila::Mochila(float peso) {
 
 
 
-// Funcion que introduce objetos en la mochila, los objetos son unicos y se
-// pueden introducir fracciones de ellos mismos
+/**
+ * @brief Funcion que introduce objetos en la mochila, 
+ * los objetos son unicos y se pueden introducir fracciones de ellos mismos
+ * 
+ * @param objetos objetos de la mochila
+ */
 void Mochila::insertar_objeto(Objeto& objetos) {
   float utilidad_maxima = 0;
   float fraccion = 0;
@@ -49,8 +72,12 @@ void Mochila::insertar_objeto(Objeto& objetos) {
 
 
 
-// Funcion que introduce objetos en la mochila, los objetos son ilimitados pero
-// no se pueden fraccionar
+/**
+ * @brief Funcion que introduce objetos en la mochila, 
+ * los objetos son ilimitados pero no se pueden fraccionar
+ * 
+ * @param objetos objetos de la mochila
+ */
 void Mochila::insertar_no_acotado(Objeto& objetos) {
   float utilidad_maxima = 0;
   int fraccion = 0;
@@ -89,14 +116,20 @@ void Mochila::insertar_no_acotado(Objeto& objetos) {
 
 
 
-// Funcion devuelve cuanto queda por llenar en la mochila
+/**
+ * @brief Devuelve cuanto queda por llenar en la mochila
+ * 
+ */
 float Mochila::espacio() { 
   return peso_max_ - peso_actual_; 
 }
 
 
 
-// Funcion escribe en pantalla la solucion a la que se ha llegado
+/**
+ * @brief Escribe en pantalla la solucion a la que se ha llegado
+ * 
+ */
 void Mochila::imprimir() {
   const int size = orden_.size();
   std::cout << "Beneficio: " << beneficio_ << std::endl;

@@ -10,9 +10,9 @@
 //         Contiene la definición de la clase Mochila.
 // Revisión histórica
 //      16/12/2021 - Creación (primera versión) del código
-//      17/11/2021 - Continuación de la programación
-//      18/11/2021 - Corrección de errores
-//      19/11/2021 - Última revisión.
+//      17/12/2021 - Continuación de la programación
+//      18/12/2021 - Corrección de errores
+//      19/12/2021 - Última revisión.
 #ifndef MOCHILA_H_
 #define MOCHILA_H_
 
