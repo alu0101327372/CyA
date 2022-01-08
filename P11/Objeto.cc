@@ -78,10 +78,10 @@ Objeto::Objeto(const std::string& input) {
 
 
 /**
- * @brief Devuelve tamaño de lista
+ * @brief Devuelve tamano de lista
  * @return atributo cantidad
  */
-int Objeto::tamaño(void) const { 
+int Objeto::tamano(void) const { 
   return cantidad_; 
 }
 
@@ -91,7 +91,7 @@ int Objeto::tamaño(void) const {
  * @brief Devuelve iterador al comienzo de la lista
  * @return lista inicio
  */
-std::list<std::vector<float>>::iterator Objeto::inicio(void) {
+std::list<std::vector<float> >::iterator Objeto::inicio(void) {
   return objetos_.begin();
 }
 
@@ -101,6 +101,6 @@ std::list<std::vector<float>>::iterator Objeto::inicio(void) {
  * @brief Devuelve iterador al final de la lista
  * @return lista fin
  */
-std::list<std::vector<float>>::iterator Objeto::fin(void) { 
+std::list<std::vector<float> >::iterator Objeto::fin(void) { 
   return objetos_.end(); 
 }

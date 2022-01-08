@@ -46,10 +46,10 @@ void Mochila::insertar_objeto(Objeto& objetos) {
   const float zero = 0;
   // Se repite mientras la mochila no este llena y queden objetos para seguir
   // metifino
-  while (peso_actual_ < peso_max_ && orden_.size() < objetos.tamaño()) {
+  while (peso_actual_ < peso_max_ && orden_.size() < objetos.tamano()) {
     int counter = 1;
     utilidad_maxima = 0;
-    const int size = objetos.tamaño();
+    const int size = objetos.tamano();
     // Se recorre lista para encontrar objeto con mayor utilidad sin repetir
     for (auto it = objetos.inicio(); it != objetos.fin(); ++it) {
       if ((it->at(indice_utilidad) > utilidad_maxima) && (it->at(indice_usado) == zero)) {
@@ -93,7 +93,7 @@ void Mochila::insertar_no_acotado(Objeto& objetos) {
   while (peso_actual_ < peso_max_ && disponible) {
     int counter = 1;
     utilidad_maxima = 0;
-    const int size = objetos.tamaño();
+    const int size = objetos.tamano();
     disponible = false;
     // Se recorre lista para encontrar item con mayor utilidad que pueda entrar
     for (auto it = objetos.inicio(); it != objetos.fin(); ++it) {

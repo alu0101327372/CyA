@@ -27,12 +27,12 @@ class Objeto {
   public:
     Objeto(const std::string& input);
 
-    int tamaño(void) const;
-    std::list<std::vector<float>>::iterator inicio(void);
-    std::list<std::vector<float>>::iterator fin(void);
+    int tamano(void) const;
+    std::list<std::vector<float> >::iterator inicio(void);
+    std::list<std::vector<float> >::iterator fin(void);
   private:
     int cantidad_;
-    std::list<std::vector<float>> objetos_;
+    std::list<std::vector<float> > objetos_;
 };
 
 #endif // OBJETO_H_

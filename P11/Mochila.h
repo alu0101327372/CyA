@@ -30,7 +30,7 @@ class Mochila {
     float peso_max_;
     float peso_actual_;
     float beneficio_;
-    std::vector<std::pair<int, float>> orden_;
+    std::vector<std::pair<int, float> > orden_;
 };
 
 #endif // MOCHILA_H_
