@@ -1,2 +1,3 @@
-# CyA
-Repositorio para las prácticas de la asignatura Computabilidad y Algoritmia.
+# Computability and Algorithms
+
+Development of the practices of the Computability and Algorithms subject.
